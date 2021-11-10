@@ -1,5 +1,5 @@
-`include "UART_transmitter"
-`include "UART_reciever"
+`include "UART_transmitter.v"
+`include "UART_reciever.v"
 
 module top_UART(input clk,rst,en,input [7:0]data_i,output [7:0]data_o);
 wire transmit_reciever;
