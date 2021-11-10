@@ -2,7 +2,7 @@
 
 
 `include "SPI_master"
-`incude "SPI_slave"
+`include "SPI_slave"
 
 module spi_top(input clk,reset,cs1,cs2,cs3,input [15:0]master_data,slave_data1,slave_data2,slave_data3,output [15:0]Master_r,Slave1_r,Slave2_r,Slave3_r);
 wire MOSI1,MOSI2,MOSI3,MISO1,MISO2,MISO3,CS1,CS2,CS3;
