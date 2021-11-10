@@ -1,6 +1,6 @@
-`include "UART_top.v"
-
 `timescale 1us/1ns
+
+`include "UART_top.v"
 
 module UART_tb;
 reg clk,rst,en;
