@@ -1,7 +1,8 @@
-module UART_trans#(parameter IDLE=3'b000,START=3'b001,DATA=3'b010,STOP=3'b011)
-(input clk,rst,en,input [7:0]data_in,output reg transmit);
+module UART_reciever#(parameter IDLE=3'b000,START=3'b001,DATA=3'b010,STOP=3'b011)
+(input clk,data_r,rst,output reg [7:0]data_out);
 reg [3:0]count;
 reg [2:0]state; 
+reg ready;
 
 always@(posedge clk)
 begin 
@@ -14,36 +15,42 @@ begin
 	begin
 		case(state)
 			IDLE:begin
-				if(en==1)
+				if(data_r==1)
 			     	begin 
 					state<=IDLE;
-					transmit<=en;
+					
 			     	end		
-				else if(en==0)
+				else if(data_r==0)
+				begin
 					state<=START;
-			     end
-			START:begin
-				state<=DATA;
-				transmit<=en;
-				end	
+					state<=DATA;
+					ready<=1'b1;
+			        end
+			    end
 			DATA:begin
-				if(count<=4'b1000&&count>4'b0000)	
-					begin
-		  				transmit<=data_in[count-1'b1];
-						state<=DATA;	
-						count<=count-1'b1;		
-					end
+				count<=count-1;
+				if(count>4'b0000&&ready==1)
+				begin
+		  			data_out[count-1'b1]<=data_r;	
+					count<=count-1;
+				end
 				else if(count==4'b0000)
-					begin						
-					state<=STOP;
-					end
+				begin						
+				state<=STOP;
+				end
 		   	     end
 			STOP:begin
-				transmit<=1'b1;
-				
-				state<=IDLE;
-				count<=4'b0111;
-			    end
+				if(data_r==1)
+				begin
+					state<=IDLE;
+					
+				end
+				else if(data_r==0)
+				begin
+					state<=STOP;	
+					count<=4'b0000;
+			    	end
+			      end
 		endcase
 	end
 end
