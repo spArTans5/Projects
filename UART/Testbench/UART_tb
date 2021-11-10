@@ -1,0 +1,31 @@
+`include "UART_top.v"
+
+`timescale 1us/1ns
+
+module UART_tb;
+reg clk,rst,en;
+reg [7:0]data_iT;
+wire [7:0]data_oT;
+ 
+top_UART t1(.clk(clk),.rst(rst),.en(en),.data_i(data_iT),.data_o(data_oT));
+initial begin
+	clk<=1'b1;
+	forever #52.8 clk<=~clk;
+end
+initial begin
+	rst<=1'b1;
+	en=1'b1;
+	data_iT<=$random();	
+	#104.16 rst<=1'b0;
+	#104.16 en<=1'b0;
+	#1150 $stop;
+end
+endmodule
+
+
+
+
+
+
+
+
