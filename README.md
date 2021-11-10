@@ -1,3 +1,3 @@
 # Projects
 
-Mini project RTL and teest bench for the same
+Mini projects - RTL and testbench for the same
