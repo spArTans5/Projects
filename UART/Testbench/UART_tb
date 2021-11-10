@@ -21,11 +21,3 @@ initial begin
 	#1150 $stop;
 end
 endmodule
-
-
-
-
-
-
-
-
